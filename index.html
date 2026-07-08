@@ -3,6 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="ChatGPT (GPT-5.5 Thinking); initiated by Yiru Jiao">
+<meta name="creator" content="ChatGPT (GPT-5.5 Thinking)">
+<meta name="initiator" content="Yiru Jiao">
+<meta name="copyright" content="© 2026 Yiru Jiao. Created with ChatGPT (GPT-5.5 Thinking).">
 <title>PhysicalAI@ICML2026 — Landscape Report</title>
 <style>
 :root {
@@ -290,6 +294,36 @@ ul.tight li { margin: 7px 0; }
 }
 .sources li { margin: 12px 0; }
 .sources span { color: var(--muted); font-size: 14px; }
+
+.attribution-box {
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px 20px;
+  background: #fff;
+}
+.attribution-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 10px;
+}
+.attribution-item {
+  background: var(--soft);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+.attribution-label {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 4px;
+}
+.attribution-value {
+  font-weight: 700;
+}
 .footer {
   margin-top: 40px;
   padding-top: 18px;
@@ -301,7 +335,7 @@ ul.tight li { margin: 7px 0; }
   .layout { grid-template-columns: 1fr; padding: 26px 18px 52px; }
   nav { position: static; border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 12px; }
   .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cards, .two-col { grid-template-columns: 1fr; }
+  .cards, .two-col, .attribution-grid { grid-template-columns: 1fr; }
   .hero { padding: 42px 22px 36px; }
 }
 @media print {
@@ -323,6 +357,7 @@ ul.tight li { margin: 7px 0; }
       <span class="pill">图表：static SVG / no JavaScript</span>
       <span class="pill">口径：curated evidence set, not full taxonomy</span>
       <span class="pill">更新：2026-07-07 SGT</span>
+      <span class="pill">Creator: ChatGPT · Initiator: Yiru Jiao</span>
     </div>
   </div>
 </header>
@@ -685,6 +720,28 @@ ul.tight li { margin: 7px 0; }
     <li>Representative papers 的描述来自可检索页面中的 title/abstract/highlight/project summary，未对每篇 PDF 做逐页复现。</li>
     <li>本报告的 cluster assignment 是研究判断，不是官方分类。</li>
   </ul>
+  <div class="attribution-box" aria-label="Copyright and attribution">
+    <h3>Copyright and Attribution</h3>
+    <div class="attribution-grid">
+      <div class="attribution-item">
+        <span class="attribution-label">Creator</span>
+        <span class="attribution-value">ChatGPT (GPT-5.5 Thinking)</span>
+      </div>
+      <div class="attribution-item">
+        <span class="attribution-label">Initiator</span>
+        <span class="attribution-value">Yiru Jiao</span>
+      </div>
+      <div class="attribution-item">
+        <span class="attribution-label">Copyright notice</span>
+        <span class="attribution-value">© 2026 Yiru Jiao. Created with ChatGPT.</span>
+      </div>
+      <div class="attribution-item">
+        <span class="attribution-label">Format</span>
+        <span class="attribution-value">Single-file static HTML · inline SVG charts · no JavaScript</span>
+      </div>
+    </div>
+    <p class="small muted">本报告由 ChatGPT 根据公开可检索信息生成，由 Yiru Jiao 发起、定义主题方向并确认报告结构。第三方论文、页面与数据来源的权利归各自权利人所有。</p>
+  </div>
   <div class="footer">
     Generated as a single-file static HTML report. Charts are inline SVG and do not require JavaScript.
   </div>
