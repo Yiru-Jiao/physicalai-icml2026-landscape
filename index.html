@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PhysicalAI@ICML2026 — Landscape Report</title>
+<style>
+:root {
+  --ink: #172033;
+  --muted: #5a667a;
+  --line: #dfe5ef;
+  --soft: #f4f7fb;
+  --soft2: #eef3f8;
+  --blue: #1f4e79;
+  --blue2: #2b6cb0;
+  --accent: #0f766e;
+  --card: #ffffff;
+  --danger: #9a3412;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft Yahei", Arial, sans-serif;
+  color: var(--ink);
+  background: #fff;
+  line-height: 1.65;
+}
+a { color: var(--blue2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.hero {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(99,179,237,.34), transparent 28%),
+    radial-gradient(circle at 75% 5%, rgba(15,118,110,.16), transparent 22%),
+    linear-gradient(135deg, #0b1828 0%, #163c64 58%, #0f766e 100%);
+  color: white;
+  padding: 56px 48px 42px;
+}
+.hero-inner { max-width: 1180px; margin: 0 auto; }
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  font-size: 13px;
+  opacity: .82;
+  margin-bottom: 16px;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(38px, 6vw, 76px);
+  line-height: .98;
+  letter-spacing: -0.05em;
+  font-weight: 760;
+}
+.subtitle {
+  margin-top: 22px;
+  max-width: 820px;
+  color: rgba(255,255,255,.84);
+  font-size: 19px;
+}
+.meta-line {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.26);
+  background: rgba(255,255,255,.08);
+  color: white;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 13px;
+}
+.layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 34px 28px 70px;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 40px;
+}
+nav {
+  position: sticky;
+  top: 18px;
+  align-self: start;
+  border-left: 3px solid var(--line);
+  padding-left: 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+nav a {
+  display:block;
+  color: var(--muted);
+  padding: 7px 0;
+}
+nav a:hover { color: var(--blue); }
+main { min-width: 0; }
+section {
+  margin: 0 0 54px;
+  scroll-margin-top: 20px;
+}
+h2 {
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  margin: 0 0 18px;
+  line-height: 1.2;
+  border-top: 1px solid var(--line);
+  padding-top: 30px;
+}
+h3 {
+  margin: 28px 0 12px;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+.lead {
+  font-size: 18px;
+  color: #344155;
+  margin: 0 0 18px;
+}
+.grid {
+  display: grid;
+  gap: 16px;
+}
+.metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 24px;
+}
+.metric {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 10px 30px rgba(15,32,51,.06);
+}
+.metric .num {
+  font-size: 32px;
+  font-weight: 760;
+  color: var(--blue);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.metric .label {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.callout {
+  border: 1px solid #c9e2ff;
+  background: #f1f7ff;
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin: 22px 0;
+}
+.warn {
+  border-color: #fed7aa;
+  background: #fff7ed;
+}
+.cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 12px 30px rgba(17,32,55,.05);
+}
+.card h3 { margin-top: 0; }
+.card p { margin: 8px 0 0; color: var(--muted); }
+.formula {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: #0b1828;
+  color: #e8f2ff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin: 18px 0;
+  overflow-x: auto;
+}
+.chart-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: white;
+  padding: 20px;
+  margin: 18px 0;
+  box-shadow: 0 12px 34px rgba(17,32,55,.06);
+}
+.chart-title {
+  margin: 0;
+  font-weight: 720;
+  font-size: 18px;
+}
+.chart-note {
+  margin: 4px 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.axis, .legend-small, .chart-note {
+  fill: #667085;
+  color: #667085;
+  font-size: 12px;
+}
+.bar-label { fill: #1f2937; font-size: 13px; font-weight: 650; }
+.bar-value { fill: #1f4e79; font-size: 13px; font-weight: 720; }
+.svg-title { fill: #172033; font-size: 17px; font-weight: 720; }
+.stack-in { fill: white; font-size: 16px; font-weight: 760; }
+.legend { fill: #263446; font-size: 13px; }
+.legend-strong { font-weight: 720; }
+.point-label { fill: #1f2937; font-size: 11px; font-weight: 650; }
+.quad { fill: #667085; font-size: 11px; }
+.axis-title { fill: #344155; font-size: 13px; font-weight: 650; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+th, td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+th {
+  text-align: left;
+  background: var(--soft);
+  color: #344155;
+  font-weight: 720;
+}
+tr:last-child td { border-bottom: 0; }
+.badge {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eef6ff;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.tag {
+  display: inline-block;
+  margin: 4px 6px 4px 0;
+  padding: 5px 9px;
+  background: #eef3f8;
+  border: 1px solid #dde6f0;
+  border-radius: 999px;
+  color: #344155;
+  font-size: 12px;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.timeline {
+  border-left: 3px solid var(--blue2);
+  margin-left: 10px;
+  padding-left: 22px;
+}
+.tl-item {
+  position: relative;
+  margin: 0 0 20px;
+}
+.tl-item:before {
+  content: "";
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--blue2);
+  position: absolute;
+  left: -30px;
+  top: 8px;
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--blue2);
+}
+.tl-item strong { display: block; }
+.tl-item span { color: var(--muted); }
+ul.tight { padding-left: 18px; }
+ul.tight li { margin: 7px 0; }
+.sources {
+  background: var(--soft);
+  border-radius: 20px;
+  padding: 20px;
+}
+.sources li { margin: 12px 0; }
+.sources span { color: var(--muted); font-size: 14px; }
+.footer {
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; padding: 26px 18px 52px; }
+  nav { position: static; border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 12px; }
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cards, .two-col { grid-template-columns: 1fr; }
+  .hero { padding: 42px 22px 36px; }
+}
+@media print {
+  nav { display: none; }
+  .layout { display:block; max-width: 100%; }
+  .chart-card, .card, .metric { box-shadow:none; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="kicker">Landscape report · static HTML</div>
+    <h1>PhysicalAI@ICML2026</h1>
+    <p class="subtitle">从 ICML 2026 可检索与可阅读信息出发，对 Physical AI 的研究版图、代表性论文、技术趋势与研究判断做一次主题型 landscape analysis。</p>
+    <div class="meta-line">
+      <span class="pill">语言：中文解释 + English technical terms</span>
+      <span class="pill">图表：static SVG / no JavaScript</span>
+      <span class="pill">口径：curated evidence set, not full taxonomy</span>
+      <span class="pill">更新：2026-07-07 SGT</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+<nav>
+  <a href="#summary">Executive Summary</a>
+  <a href="#method">Scope & Methodology</a>
+  <a href="#map">PhysicalAI Topic Map</a>
+  <a href="#landscape">Landscape Charts</a>
+  <a href="#clusters">Technical Clusters</a>
+  <a href="#papers">Representative Papers</a>
+  <a href="#judgement">Research Judgement</a>
+  <a href="#watch">What to Watch</a>
+  <a href="#sources">Sources</a>
+</nav>
+
+<main>
+<section id="summary">
+  <h2>1. Executive Summary</h2>
+  <p class="lead">ICML 2026 的 PhysicalAI 不是单一 track，而是横跨 <strong>VLA</strong>、<strong>robotics</strong>、<strong>world models</strong>、<strong>simulation</strong>、<strong>3D/spatial representation</strong>、<strong>video dynamics</strong>、<strong>RL/control</strong> 与 <strong>safety/evaluation</strong> 的交叉型研究版图。</p>
+  <div class="grid metrics">
+    <div class="metric"><div class="num">6,341</div><div class="label">MTRI / dataset 提到的 accepted main-track paper 量级</div></div>
+    <div class="metric"><div class="num">10,815</div><div class="label">HuggingFace dataset 覆盖的 main + workshop 条目量级</div></div>
+    <div class="metric"><div class="num">33</div><div class="label">本报告人工筛选的 PhysicalAI evidence set</div></div>
+    <div class="metric"><div class="num">20</div><div class="label">优先阅读的代表性 paper / project</div></div>
+  </div>
+  <div class="callout">
+    <strong>核心判断：</strong>ICML 2026 的 PhysicalAI 信号显示，研究重心正在从 “perception-only intelligence” 转向 “action-conditioned intelligence”。真正关键的不是某一个 model family，而是从 <strong>world/dynamics model</strong> 到 <strong>policy/action</strong> 再到 <strong>simulation/evaluation</strong> 的闭环能力。
+  </div>
+  <div class="grid cards">
+    <div class="card">
+      <h3>Landscape conclusion</h3>
+      <p>PhysicalAI 不是 ICML 2026 最大主题；MTRI 的全会分析中，Language/NLP 仍是最大主题。但 PhysicalAI 在多个热点方向中以 cross-cutting stack 的形式出现。</p>
+    </div>
+    <div class="card">
+      <h3>Research conclusion</h3>
+      <p>最值得关注的方向不是单纯更大的 VLM/VLA，而是能把 <strong>3D/spatial grounding</strong>、<strong>world model</strong>、<strong>action decoding</strong>、<strong>safety evaluation</strong> 串起来的训练与评估闭环。</p>
+    </div>
+  </div>
+</section>
+
+<section id="method">
+  <h2>2. Scope & Methodology</h2>
+  <p>本报告采用主题型检索，而不是按 ICML 官方 track 做归类。原因是 PhysicalAI 在 ICML 2026 中主要表现为跨主题分布：同一篇论文可能同时属于 <strong>robot learning</strong>、<strong>generative models</strong>、<strong>3D vision</strong>、<strong>RL</strong> 或 <strong>embodied agents</strong>。</p>
+  <h3>数据来源</h3>
+  <ul class="tight">
+    <li><strong>ICML official virtual site</strong>：会议时间、地点、paper navigation。</li>
+    <li><strong>MTRI ICML 2026 report</strong>：全会级 accepted papers、机构、国家/地区、产业参与与主题趋势。</li>
+    <li><strong>tj-yoo/ICML-2026 dataset</strong>：从 official virtual site 与 OpenReview 抽取的 title、abstract、authors、PDF/OpenReview、session 等字段。</li>
+    <li><strong>PaperDigest / arXiv / OpenReview / project pages</strong>：用于补充代表性论文的摘要、方法与实验信息。</li>
+  </ul>
+  <h3>筛选规则</h3>
+  <div class="two-col">
+    <div class="card">
+      <h3>纳入</h3>
+      <span class="tag">robotics</span><span class="tag">VLA</span><span class="tag">embodied AI</span><span class="tag">world model</span><span class="tag">dynamics</span><span class="tag">planning</span><span class="tag">control</span><span class="tag">simulation</span><span class="tag">3D/spatial</span><span class="tag">video dynamics</span><span class="tag">safety/evaluation</span>
+    </div>
+    <div class="card">
+      <h3>谨慎纳入 / 排除</h3>
+      <p>仅做 web/GUI agent、纯 LLM reasoning、纯 text benchmark 的 paper 通常不纳入，除非它们明确连接到 physical state、embodiment、spatial reasoning、action 或 real-world dynamics。</p>
+    </div>
+  </div>
+  <div class="callout warn">
+    <strong>口径提示：</strong>下方图表基于人工筛选的 <strong>curated evidence set</strong>。它用于呈现 PhysicalAI 的相对结构与技术信号，不等价于 ICML 2026 全量论文的最终统计。
+  </div>
+</section>
+
+<section id="map">
+  <h2>3. PhysicalAI Topic Map</h2>
+  <p>本文使用的工作定义是：</p>
+  <div class="formula">Physical AI = Perception + World/Dynamics Modeling + Action/Control + Embodiment + Evaluation/Safety</div>
+  <p>这个定义刻意把 PhysicalAI 从单纯 “robotics” 扩展到更宽的 physical-world intelligence：只要一个系统需要理解、预测或作用于真实/模拟物理世界，它就落入本报告关注范围。</p>
+  <div class="grid cards">
+    <div class="card">
+      <h3>Perception / 3D / Spatial</h3>
+      <p>把 image/video 转成可用于 action 的 geometry、scene、object、motion representation。</p>
+    </div>
+    <div class="card">
+      <h3>World / Dynamics Model</h3>
+      <p>学习 action-conditioned transition、long-horizon consistency 或 rollout imagination。</p>
+    </div>
+    <div class="card">
+      <h3>Policy / Action Decoding</h3>
+      <p>把 instruction、visual context、latent state 转成 continuous 或 discrete action chunks。</p>
+    </div>
+    <div class="card">
+      <h3>Simulation / Evaluation / Safety</h3>
+      <p>提供 data generation、closed-loop benchmark、safe failure mode 与 deployment-oriented evaluation。</p>
+    </div>
+  </div>
+</section>
+
+<section id="landscape">
+  <h2>4. Landscape Charts</h2>
+
+  <div class="chart-card">
+    <p class="chart-title">PhysicalAI paper clusters</p>
+    <p class="chart-note">Primary assignment over 33 curated papers/projects. 一篇论文只分配到一个主 cluster，以避免重复计数。</p>
+    <svg class="chart-svg" viewBox="0 0 860 310" role="img" aria-label="PhysicalAI cluster count bar chart">
+
+<defs>
+  <linearGradient id="barGrad" x1="0" x2="1">
+    <stop offset="0%" stop-color="#2b6cb0"/>
+    <stop offset="100%" stop-color="#63b3ed"/>
+  </linearGradient>
+</defs>
+<rect width="100%" height="100%" fill="transparent"/>
+<line x1="230.0" y1="30" x2="230.0" y2="275" stroke="#e7eaf0" stroke-width="1"/>
+<text x="230.0" y="298" text-anchor="middle" class="axis">0</text>
+<line x1="380.0" y1="30" x2="380.0" y2="275" stroke="#e7eaf0" stroke-width="1"/>
+<text x="380.0" y="298" text-anchor="middle" class="axis">2</text>
+<line x1="530.0" y1="30" x2="530.0" y2="275" stroke="#e7eaf0" stroke-width="1"/>
+<text x="530.0" y="298" text-anchor="middle" class="axis">4</text>
+<line x1="680.0" y1="30" x2="680.0" y2="275" stroke="#e7eaf0" stroke-width="1"/>
+<text x="680.0" y="298" text-anchor="middle" class="axis">6</text>
+<line x1="830.0" y1="30" x2="830.0" y2="275" stroke="#e7eaf0" stroke-width="1"/>
+<text x="830.0" y="298" text-anchor="middle" class="axis">8</text>
+<text x="216" y="54.4" text-anchor="end" class="bar-label">VLA &amp; Embodied Policy</text>
+<rect x="230" y="38.2" width="600.0" height="22.5" rx="7" fill="url(#barGrad)"/>
+<text x="838.0" y="54.4" class="bar-value">8</text>
+<text x="216" y="95.2" text-anchor="end" class="bar-label">World Models &amp; Planning</text>
+<rect x="230" y="79.0" width="525.0" height="22.5" rx="7" fill="url(#barGrad)"/>
+<text x="763.0" y="95.2" class="bar-value">7</text>
+<text x="216" y="136.1" text-anchor="end" class="bar-label">Robotics Manipulation &amp; Control</text>
+<rect x="230" y="119.8" width="450.0" height="22.5" rx="7" fill="url(#barGrad)"/>
+<text x="688.0" y="136.1" class="bar-value">6</text>
+<text x="216" y="176.9" text-anchor="end" class="bar-label">Simulation / Physics / Data</text>
+<rect x="230" y="160.7" width="375.0" height="22.5" rx="7" fill="url(#barGrad)"/>
+<text x="613.0" y="176.9" class="bar-value">5</text>
+<text x="216" y="217.7" text-anchor="end" class="bar-label">3D / Spatial / Video</text>
+<rect x="230" y="201.5" width="375.0" height="22.5" rx="7" fill="url(#barGrad)"/>
+<text x="613.0" y="217.7" class="bar-value">5</text>
+<text x="216" y="258.6" text-anchor="end" class="bar-label">Safety / Evaluation / Governance</text>
+<rect x="230" y="242.3" width="150.0" height="22.5" rx="7" fill="url(#barGrad)"/>
+<text x="388.0" y="258.6" class="bar-value">2</text>
+</svg>
+  </div>
+
+  <div class="chart-card">
+    <p class="chart-title">Technical stack distribution</p>
+    <p class="chart-note">该图展示 curated evidence set 中的主要技术角色，不代表论文唯一贡献。</p>
+    <svg class="chart-svg" viewBox="0 0 860 280" role="img" aria-label="PhysicalAI technical stack distribution">
+<text x="55" y="34" class="svg-title">Technical stack distribution in curated evidence set</text>
+<rect x="55.0" y="72" width="136.4" height="54" fill="#1f4e79"/>
+<text x="123.2" y="103" text-anchor="middle" class="stack-in">6</text>
+<rect x="191.4" y="72" width="181.8" height="54" fill="#2b6cb0"/>
+<text x="282.3" y="103" text-anchor="middle" class="stack-in">8</text>
+<rect x="373.2" y="72" width="159.1" height="54" fill="#4c78a8"/>
+<text x="452.7" y="103" text-anchor="middle" class="stack-in">7</text>
+<rect x="532.3" y="72" width="136.4" height="54" fill="#6baed6"/>
+<text x="600.5" y="103" text-anchor="middle" class="stack-in">6</text>
+<rect x="668.6" y="72" width="136.4" height="54" fill="#9ecae1"/>
+<text x="736.8" y="103" text-anchor="middle" class="stack-in">6</text>
+<rect x="55" y="153" width="14" height="14" rx="3" fill="#1f4e79"/>
+<text x="78" y="164" class="legend"><tspan class="legend-strong">Perception &amp; Representation</tspan> · 6</text>
+<text x="78" y="182" class="legend-small">视觉、3D、spatial representation</text>
+<rect x="445" y="153" width="14" height="14" rx="3" fill="#2b6cb0"/>
+<text x="468" y="164" class="legend"><tspan class="legend-strong">World / Dynamics Model</tspan> · 8</text>
+<text x="468" y="182" class="legend-small">action-conditioned world、video/dynamics prediction</text>
+<rect x="55" y="195" width="14" height="14" rx="3" fill="#4c78a8"/>
+<text x="78" y="206" class="legend"><tspan class="legend-strong">Policy / Action Decoding</tspan> · 7</text>
+<text x="78" y="224" class="legend-small">VLA、diffusion action、latent action</text>
+<rect x="445" y="195" width="14" height="14" rx="3" fill="#6baed6"/>
+<text x="468" y="206" class="legend"><tspan class="legend-strong">Planning / Control / RL</tspan> · 6</text>
+<text x="468" y="224" class="legend-small">model-based planning、offline/online RL、control</text>
+<rect x="55" y="237" width="14" height="14" rx="3" fill="#9ecae1"/>
+<text x="78" y="248" class="legend"><tspan class="legend-strong">Simulator / Data / Evaluation</tspan> · 6</text>
+<text x="78" y="266" class="legend-small">simulation scenes、benchmarks、safe lab</text>
+</svg>
+  </div>
+
+  <div class="chart-card">
+    <p class="chart-title">Embodiment × closed-loop readiness</p>
+    <p class="chart-note">横轴表示从 paper benchmark 到 sim/real robot closed-loop 的接近程度；纵轴表示从 image/video 到 action/contact 的 embodiment 强度。位置为定性判断。</p>
+    <svg class="chart-svg" viewBox="0 0 860 430" role="img" aria-label="Readiness and embodiment matrix">
+<text x="88" y="28" class="svg-title">Representative papers: embodiment × closed-loop readiness</text>
+<line x1="88.0" y1="45" x2="88.0" y2="355" stroke="#e7eaf0"/>
+<line x1="88" y1="45.0" x2="820" y2="45.0" stroke="#e7eaf0"/>
+<line x1="271.0" y1="45" x2="271.0" y2="355" stroke="#e7eaf0"/>
+<line x1="88" y1="122.5" x2="820" y2="122.5" stroke="#e7eaf0"/>
+<line x1="454.0" y1="45" x2="454.0" y2="355" stroke="#e7eaf0"/>
+<line x1="88" y1="200.0" x2="820" y2="200.0" stroke="#e7eaf0"/>
+<line x1="637.0" y1="45" x2="637.0" y2="355" stroke="#e7eaf0"/>
+<line x1="88" y1="277.5" x2="820" y2="277.5" stroke="#e7eaf0"/>
+<line x1="820.0" y1="45" x2="820.0" y2="355" stroke="#e7eaf0"/>
+<line x1="88" y1="355.0" x2="820" y2="355.0" stroke="#e7eaf0"/>
+<text x="98" y="65" class="quad">high embodiment / low readiness</text>
+<text x="810" y="65" text-anchor="end" class="quad">high embodiment / high readiness</text>
+<text x="98" y="345" class="quad">representation-heavy</text>
+<text x="810" y="345" text-anchor="end" class="quad">tooling / sim / eval</text>
+<circle cx="765.1" cy="83.8" r="7" fill="#2b6cb0" stroke="white" stroke-width="1.5"/>
+<text x="755.1" y="101.8" text-anchor="end" class="point-label">VLAW</text>
+<circle cx="673.6" cy="122.5" r="7" fill="#2b6cb0" stroke="white" stroke-width="1.5"/>
+<text x="663.6" y="140.5" text-anchor="end" class="point-label">DreamDojo</text>
+<circle cx="783.4" cy="60.5" r="7" fill="#2b6cb0" stroke="white" stroke-width="1.5"/>
+<text x="773.4" y="78.5" text-anchor="end" class="point-label">Discrete Diffusion VLA</text>
+<circle cx="728.5" cy="68.2" r="7" fill="#2b6cb0" stroke="white" stroke-width="1.5"/>
+<text x="718.5" y="86.2" text-anchor="end" class="point-label">Any3D-VLA</text>
+<circle cx="600.4" cy="91.5" r="7" fill="#4c78a8" stroke="white" stroke-width="1.5"/>
+<text x="610.4" y="109.5" text-anchor="start" class="point-label">LaRA-VLA</text>
+<circle cx="637.0" cy="138.0" r="7" fill="#4c78a8" stroke="white" stroke-width="1.5"/>
+<text x="647.0" y="156.0" text-anchor="start" class="point-label">GRASP</text>
+<circle cx="545.5" cy="52.8" r="7" fill="#4c78a8" stroke="white" stroke-width="1.5"/>
+<text x="555.5" y="70.8" text-anchor="start" class="point-label">DLO-Lab</text>
+<circle cx="618.7" cy="68.2" r="7" fill="#6baed6" stroke="white" stroke-width="1.5"/>
+<text x="628.7" y="86.2" text-anchor="start" class="point-label">RoboTwin 2.0</text>
+<circle cx="600.4" cy="83.8" r="7" fill="#6baed6" stroke="white" stroke-width="1.5"/>
+<text x="610.4" y="101.8" text-anchor="start" class="point-label">SafeLab</text>
+<circle cx="472.3" cy="161.2" r="7" fill="#9ecae1" stroke="white" stroke-width="1.5"/>
+<text x="482.3" y="179.2" text-anchor="start" class="point-label">SceneSmith</text>
+<circle cx="399.1" cy="200.0" r="7" fill="#9ecae1" stroke="white" stroke-width="1.5"/>
+<text x="409.1" y="218.0" text-anchor="start" class="point-label">3D-RFT</text>
+<circle cx="380.8" cy="238.8" r="7" fill="#c6dbef" stroke="white" stroke-width="1.5"/>
+<text x="390.8" y="230.8" text-anchor="start" class="point-label">Flex-Forcing</text>
+<line x1="88" y1="355" x2="820" y2="355" stroke="#223" stroke-width="1.2"/>
+<line x1="88" y1="45" x2="88" y2="355" stroke="#223" stroke-width="1.2"/>
+<text x="454.0" y="404" text-anchor="middle" class="axis-title">Closed-loop readiness：paper benchmark → sim → real robot</text>
+<text x="22" y="200.0" transform="rotate(-90 22 200.0)" text-anchor="middle" class="axis-title">Embodiment strength：image/video → action/contact</text>
+</svg>
+  </div>
+</section>
+
+<section id="clusters">
+  <h2>5. Technical Clusters</h2>
+
+  <h3>5.1 World Models & Planning</h3>
+  <p><strong>World model</strong> 在 ICML 2026 的 PhysicalAI 相关工作中不再只是 video generator，而是被用作 <strong>policy training</strong>、<strong>synthetic rollout</strong>、<strong>planning</strong> 与 <strong>policy evaluation</strong> 的基础接口。VLAW、DreamDojo、GRASP、Jumpy World Models、WorldCompass 等工作共同指向一个趋势：模型需要学习的不只是视觉未来，而是可被 action 改变、可被 planning 使用、可被 evaluation 检验的 dynamics。</p>
+  <p><strong>判断：</strong>World model 的核心难点不是生成质量，而是 <strong>physical fidelity</strong>、<strong>action consistency</strong>、<strong>long-horizon error accumulation</strong> 与 <strong>policy-induced distribution shift</strong>。</p>
+
+  <h3>5.2 VLA & Embodied Policy</h3>
+  <p>VLA 相关工作开始从 “language-conditioned policy” 向更低延迟、更强 spatial grounding、更贴近 continuous control 的形式移动。Any3D-VLA 强调 3D point-cloud grounding；LaRA-VLA 与 LaST_0 强调 latent reasoning；Discrete Diffusion VLA 强调 action chunk generation；NeurVLA 强调 failure correction/prevention。</p>
+  <p><strong>判断：</strong>VLA 的核心矛盾是 <strong>language token reasoning</strong> 与 <strong>continuous physical control</strong> 的表示错位。未来更可能是 hybrid：high-level language reasoning + low-level latent/action-space dynamics。</p>
+
+  <h3>5.3 Robotics Manipulation & Control</h3>
+  <p>DexMachina、DLO-Lab、RoboTwin 2.0、DICE-RL、CaP-X 等工作体现出 ICML 对 manipulation/control 的关注不只停留在 policy architecture，而是进入 contact、bimanual manipulation、deformable object、simulation scalability、policy refinement 等更真实的物理难点。</p>
+  <p><strong>判断：</strong>Manipulation 是 PhysicalAI 最直接的试验场，因为它强迫模型面对 contact discontinuity、partial observability、geometry precision 与 closed-loop correction。</p>
+
+  <h3>5.4 Simulation / Physics / Data Generation</h3>
+  <p>SceneSmith、SafeLab、GeoPT、RoboTwin 2.0、DLO-Lab 等工作说明 simulation 不再只是低成本替代品，而是训练、评估、安全检验和 data engine 的组成部分。</p>
+  <p><strong>判断：</strong>PhysicalAI 的 scaling law 很可能不是单纯参数量 scaling，而是 <strong>real data × simulation data × world-model rollout × evaluator feedback</strong> 的组合 scaling。</p>
+
+  <h3>5.5 3D / Spatial / Video Dynamics</h3>
+  <p>3D-RFT、Any3D-VLA、Flex-Forcing、VideoFlexTok、LUVE 等工作代表了 PhysicalAI 的感知基础层。它们不一定直接输出 action，但对 scene geometry、motion continuity、long-video consistency、3D reasoning 的改进，会影响下游 embodied policy。</p>
+  <p><strong>判断：</strong>Video/3D 工作只有在能转化为 <strong>state abstraction</strong>、<strong>dynamics prior</strong> 或 <strong>action-relevant representation</strong> 时，才真正成为 PhysicalAI 的核心组成。</p>
+</section>
+
+<section id="papers">
+  <h2>6. Representative Papers</h2>
+  <p>下表不是完整 bibliography，而是按 PhysicalAI relevance 筛出的优先阅读列表。排序大致按 “对 PhysicalAI stack 的直接性” 而不是论文重要性。</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Paper / Project</th>
+        <th>Cluster</th>
+        <th>为什么相关</th>
+        <th>Stack role</th>
+        <th>Relevance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>VLAW</strong></td><td>World Model + VLA</td><td>真实 rollout 改进 world model，并用 synthetic rollouts 训练 VLA；报告了明显的成功率增益。</td><td>World→Policy</td><td><span class='badge'>High</span></td></tr>
+<tr><td><strong>DreamDojo</strong></td><td>Robot World Model</td><td>基于约 44k hours egocentric human videos 训练 robot world model。</td><td>World Model</td><td><span class='badge'>High</span></td></tr>
+<tr><td><strong>GRASP / Parallel Stochastic Gradient-Based Planning</strong></td><td>Planning with World Models</td><td>利用 differentiable learned world model 做 long-horizon visual control planning。</td><td>Planning</td><td><span class='badge'>High</span></td></tr>
+<tr><td><strong>Compositional Planning with Jumpy World Models</strong></td><td>World Model Planning</td><td>关注 long-horizon planning 中的 abstraction 与跳跃式预测。</td><td>Planning</td><td><span class='badge'>Medium-High</span></td></tr>
+<tr><td><strong>Any3D-VLA</strong></td><td>3D-grounded VLA</td><td>用 diverse point clouds 缓解 3D data scarcity 与 domain gap，提升 VLA robustness。</td><td>Perception→Policy</td><td><span class='badge'>High</span></td></tr>
+<tr><td><strong>LaRA-VLA</strong></td><td>Latent Reasoning VLA</td><td>把 CoT-style reasoning 压入 continuous latent space，缓解 language token overhead 与 continuous control mismatch。</td><td>Policy</td><td><span class='badge'>High</span></td></tr>
+<tr><td><strong>Discrete Diffusion VLA</strong></td><td>Action Decoding</td><td>以 discrete diffusion 生成 action chunks，连接 generative modeling 与 robot control。</td><td>Policy</td><td><span class='badge'>High</span></td></tr>
+<tr><td><strong>LaST_0</strong></td><td>Latent Spatio-Temporal CoT</td><td>用 latent spatio-temporal reasoning 建模 future visual dynamics、3D/proprioceptive states。</td><td>World→Policy</td><td><span class='badge'>High</span></td></tr>
+<tr><td><strong>NeurVLA</strong></td><td>Failure Correction</td><td>用 neural-symbolic reasoning 做 failure correction/prevention。</td><td>Policy/Eval</td><td><span class='badge'>Medium-High</span></td></tr>
+<tr><td><strong>DICE-RL</strong></td><td>Robot Policy Refinement</td><td>面向 pretrained generative robot policies 的 RL refinement。</td><td>RL</td><td><span class='badge'>Medium-High</span></td></tr>
+<tr><td><strong>DexMachina</strong></td><td>Dexterous Manipulation</td><td>bimanual dexterous manipulation，强调 contact guidance 与 motion guidance。</td><td>Control</td><td><span class='badge'>Medium-High</span></td></tr>
+<tr><td><strong>CaP-X</strong></td><td>Code-as-Policy</td><td>open-access framework for Code-as-Policy agents in robot manipulation。</td><td>Agent/Policy</td><td><span class='badge'>Medium</span></td></tr>
+<tr><td><strong>DLO-Lab</strong></td><td>Differentiable Physics</td><td>面向 deformable linear object manipulation 的 differentiable physics benchmark/lab。</td><td>Physics/Sim</td><td><span class='badge'>Medium-High</span></td></tr>
+<tr><td><strong>RoboTwin 2.0</strong></td><td>Simulation Benchmark</td><td>scalable simulation 与 domain randomization for dual-arm manipulation。</td><td>Sim/Eval</td><td><span class='badge'>Medium-High</span></td></tr>
+<tr><td><strong>SafeLab</strong></td><td>Safe Robot Learning</td><td>generative simulation benchmark for safe robot learning。</td><td>Safety/Eval</td><td><span class='badge'>Medium-High</span></td></tr>
+<tr><td><strong>SceneSmith</strong></td><td>Scene Generation</td><td>生成 simulation-ready indoor scenes，服务 embodied training/evaluation。</td><td>Sim/Data</td><td><span class='badge'>Medium</span></td></tr>
+<tr><td><strong>GeoPT</strong></td><td>Physics Simulator Pretraining</td><td>面向 physics simulators 的 geometric pretraining。</td><td>Physics</td><td><span class='badge'>Medium</span></td></tr>
+<tr><td><strong>3D-RFT</strong></td><td>3D Reasoning</td><td>reinforcement fine-tuning 用于 3D reasoning，可作为 spatial foundation signal。</td><td>3D/Reasoning</td><td><span class='badge'>Medium</span></td></tr>
+<tr><td><strong>Flex-Forcing</strong></td><td>Video Generation</td><td>统一 autoregressive 与 bidirectional video diffusion。</td><td>Video/Dynamics</td><td><span class='badge'>Medium</span></td></tr>
+<tr><td><strong>VideoFlexTok</strong></td><td>Video Tokenization</td><td>面向 long-video / video generation 的 flexible tokenization。</td><td>Video</td><td><span class='badge'>Medium</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="judgement">
+  <h2>7. Research Judgement</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <strong>Trend 1 — From static perception to action-conditioned modeling</strong>
+      <span>PhysicalAI 的关键不只是 “看懂”，而是 “知道动作会如何改变世界”。这使 world model、action-conditioned video、planning 与 closed-loop evaluation 变得更重要。</span>
+    </div>
+    <div class="tl-item">
+      <strong>Trend 2 — VLA is moving below language tokens</strong>
+      <span>Language 仍是 instruction interface，但连续控制更需要 latent action、diffusion action、3D grounding 与 fast feedback。</span>
+    </div>
+    <div class="tl-item">
+      <strong>Trend 3 — Simulation and evaluation become algorithmic infrastructure</strong>
+      <span>真实物理数据昂贵且稀疏，因此 simulation-ready scene、domain randomization、generative benchmark、safe lab 不只是工具，而是训练闭环的一部分。</span>
+    </div>
+    <div class="tl-item">
+      <strong>Trend 4 — Real-world deployment gap remains large</strong>
+      <span>许多工作在 LIBERO、RoboTwin、simulation 或 constrained real-robot setting 上验证。真实长期、开放环境、safety-critical deployment 仍是未解决问题。</span>
+    </div>
+    <div class="tl-item">
+      <strong>Trend 5 — Autonomous driving signal is indirect but relevant</strong>
+      <span>ICML 2026 中直接以 autonomous driving 为核心的 PhysicalAI 信号弱于 robotics，但 world model、video dynamics、planning、closed-loop evaluation 对 driving foundation policy 仍有直接启发。</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>综合判断：</strong>ICML 2026 的 PhysicalAI 还没有形成像 LLM scaling 那样清晰的单一路线，但已经形成一个较稳定的技术堆栈：<strong>spatial representation → world/dynamics model → action/policy → simulation/evaluation → safety/deployment</strong>。未来真正有竞争力的系统大概率不是单点模型，而是能把这些层闭环起来的 data-model-evaluator pipeline。
+  </div>
+</section>
+
+<section id="watch">
+  <h2>8. What to Watch Next</h2>
+  <div class="grid cards">
+    <div class="card">
+      <h3>1. World model 的 fidelity</h3>
+      <p>需要区分 perceptual realism 与 physical correctness。对 robot/driving 来说，后者更关键。</p>
+    </div>
+    <div class="card">
+      <h3>2. Latent reasoning 与 control frequency</h3>
+      <p>VLA 要解决高层 reasoning 慢、低层 control 快的时间尺度冲突。</p>
+    </div>
+    <div class="card">
+      <h3>3. Action representation</h3>
+      <p>continuous trajectory、discrete action tokens、diffusion chunks、latent actions 各有 bias。这个选择会影响 RL/post-training 与 deployment。</p>
+    </div>
+    <div class="card">
+      <h3>4. Evaluation beyond success rate</h3>
+      <p>PhysicalAI 需要 failure taxonomy、risk-sensitive metrics、closed-loop robustness 和 recoverability。</p>
+    </div>
+    <div class="card">
+      <h3>5. Sim2Real data engine</h3>
+      <p>未来核心不是 “sim 或 real”，而是如何把 sim、real、world-model rollout 与 evaluator 组合成高质量 data flywheel。</p>
+    </div>
+    <div class="card">
+      <h3>6. Safety / privacy / governance</h3>
+      <p>Embodied AI 会采集和使用真实空间、人体、动作与场景数据，privacy-utility trade-off 会从边缘议题变成系统约束。</p>
+    </div>
+  </div>
+</section>
+
+<section id="sources">
+  <h2>9. Sources and Notes</h2>
+  <div class="sources">
+    <ul>
+      <li><a href='https://icml.cc/virtual/2026' target='_blank' rel='noreferrer'>ICML 2026 official virtual site</a><br><span>ICML 2026 时间、地点与 accepted-paper navigation。</span></li>
+<li><a href='https://www.mtri.co.jp/en/blogs/mtri-icml-2026-report' target='_blank' rel='noreferrer'>MTRI ICML 2026 report</a><br><span>全会级统计参考：6,341 accepted papers、机构/国家/产业/主题趋势。</span></li>
+<li><a href='https://huggingface.co/datasets/tj-yoo/ICML-2026' target='_blank' rel='noreferrer'>tj-yoo/ICML-2026 dataset</a><br><span>OpenReview/official virtual-site derived dataset；用于检索 title、abstract、authors、session、PDF/OpenReview 等字段。</span></li>
+<li><a href='https://www.paperdigest.org/2026/07/icml-2026-highlights/' target='_blank' rel='noreferrer'>PaperDigest ICML 2026 Highlights</a><br><span>用于快速定位代表性 PhysicalAI 相关论文与简短摘要。</span></li>
+<li><a href='https://openreview.net/group?id=ICML.cc/2026/Conference' target='_blank' rel='noreferrer'>OpenReview / arXiv / project pages</a><br><span>用于补充代表性论文的 abstract、method claim 与 benchmark 信息。</span></li>
+    </ul>
+  </div>
+  <h3>Method notes</h3>
+  <ul class="tight">
+    <li>ICML 2026 paper counts 在不同来源中可能因 accepted list、poster schedule、main/workshop 合并口径不同而略有差异。本报告将 MTRI/HuggingFace 的全会统计作为宏观背景，把 PhysicalAI 图表限定为人工筛选 evidence set。</li>
+    <li>Representative papers 的描述来自可检索页面中的 title/abstract/highlight/project summary，未对每篇 PDF 做逐页复现。</li>
+    <li>本报告的 cluster assignment 是研究判断，不是官方分类。</li>
+  </ul>
+  <div class="footer">
+    Generated as a single-file static HTML report. Charts are inline SVG and do not require JavaScript.
+  </div>
+</section>
+</main>
+</div>
+</body>
+</html>
